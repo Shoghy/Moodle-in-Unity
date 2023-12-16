@@ -37,3 +37,21 @@ public class ArrayJsonWrapper<T> {
     return wrapper.items;
   }
 }
+public static class Constants{
+  public const string responseType = "moodlewsrestformat=json";
+  public static void ThrowMoodleException(string json){
+    MoodleException moodleException;
+
+    try{
+      moodleException = JsonUtility.FromJson<MoodleException>(json);
+    }catch(Exception){
+      return;
+    }
+
+    if(moodleException == null){
+      return;
+    }
+
+    throw moodleException;
+  }
+}
