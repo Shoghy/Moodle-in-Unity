@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class UserInfo {
+public class UserInfo : JsonType {
   public int id;
   public string username;
   public string firstname;
@@ -23,25 +23,31 @@ public class UserInfo {
   public string descriptionformat;
   public string profileimageurlsmall;
   public string profileimageurl;
+}
 
-  public override string ToString(){
+[Serializable]
+public class MoodleException : Exception {
+  public string exception;
+  public string errorcode;
+  public string message;
+  public string debuginfo;
+
+  public MoodleException(MoodleException moodleException): base(moodleException.ToString()){
+    exception = moodleException.exception;
+    errorcode = moodleException.errorcode;
+    message = moodleException.message;
+    debuginfo = moodleException.debuginfo;
+  }
+
+  public override string ToString() {
     return JsonUtility.ToJson(this);
   }
 }
 
-public enum UserSerchFields {
-  id,
-  idnumber,
-  username,
-  email
-}
-
 [Serializable]
-public class MoodleException : Exception{
-  public string exception;
-  public string errorcode;
+public class MoodleWarning{
+  public string item;
+  public int itemid;
+  public string warningcode;
   public string message;
-  public override string ToString() {
-      return JsonUtility.ToJson(this);
-  }
 }

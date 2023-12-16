@@ -2,7 +2,9 @@ using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public static class EnumExtensions {
   private static readonly ConcurrentDictionary<string, string> DisplayNameCache = new ConcurrentDictionary<string, string>();
@@ -37,21 +39,38 @@ public class ArrayJsonWrapper<T> {
     return wrapper.items;
   }
 }
+
 public static class Constants{
   public const string responseType = "moodlewsrestformat=json";
-  public static void ThrowMoodleException(string json){
+}
+
+public static class StaticHandlers{
+  public static void ThrowMoodleException(string json) {
+    if(!json.StartsWith("{\"exception\"")){
+      return;
+    }
     MoodleException moodleException;
 
     try{
       moodleException = JsonUtility.FromJson<MoodleException>(json);
-    }catch(Exception){
+    } catch(Exception) {
       return;
     }
 
-    if(moodleException == null){
-      return;
-    }
-
-    throw moodleException;
+    throw new MoodleException(moodleException);
   }
+
+  public static async Task AwaitUnityRequest(UnityWebRequest request) {
+    request.SendWebRequest();
+    while (!request.isDone) {
+      await Task.Yield();
+    }
+  }
+}
+
+[Serializable]
+public class JsonType{
+    public override string ToString(){
+      return JsonUtility.ToJson(this);
+    }
 }
