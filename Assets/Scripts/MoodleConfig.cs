@@ -8,12 +8,6 @@ public class MoodleConfig : MonoBehaviour {
 
   private string _token;
   private string _siteServerURL;
-  public string token{
-    get => _token;
-  }
-  public string siteServerURL{
-    get => _siteServerURL;
-  }
 
   [HideInInspector] public CoreUser coreUser;
 
@@ -37,7 +31,7 @@ public class MoodleConfig : MonoBehaviour {
   }
 
   void SetUpFunctions(){
-    coreUser = new CoreUser(this);
+    coreUser = new CoreUser(_siteServerURL, _token);
   }
 }
 
