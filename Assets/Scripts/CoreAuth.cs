@@ -9,7 +9,7 @@ public class CoreAuth{
     _urlStart = $"{siteServerURL}?wstoken={token}&{Constants.responseType}";
   }
 
-  public async Task ConfirmUser(string username, string secret){
+  public async Task<ConfirmUserResponse> ConfirmUser(string username, string secret){
     const string function = "core_auth_confirm_user";
     var url = $"{_urlStart}&wsfunction={function}&username={username}&secret={secret}";
 
@@ -26,6 +26,13 @@ public class CoreAuth{
     response.Dispose();
 
     StaticHandlers.ThrowMoodleException(textResponse);
-    Debug.Log(textResponse);
+    
+    return JsonUtility.FromJson<ConfirmUserResponse>(textResponse);
   }
+}
+
+[Serializable]
+public class ConfirmUserResponse : JsonType{
+  public int success;
+  public MoodleWarning[] warnings;
 }
