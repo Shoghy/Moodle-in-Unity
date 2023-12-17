@@ -4,14 +4,15 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class CoreUser{
-  readonly MoodleConfig config;
-  public CoreUser(MoodleConfig moodleConfig){
-    config = moodleConfig;
+  readonly private string _urlStart;
+
+  public CoreUser(string siteServerURL, string token){
+    _urlStart = $"{siteServerURL}?wstoken={token}&{Constants.responseType}";
   }
 
   public async Task<UserInfo[]> GetUsersByField(EGetUsersByField field, string[] values) {
     const string function = "core_user_get_users_by_field";
-    var url = $"{config.siteServerURL}?wstoken={config.token}&wsfunction={function}&{Constants.responseType}&field={field.name()}";
+    var url = $"{_urlStart}&wsfunction={function}&field={field.name()}";
 
     for (var i = 0; i < values.Length; ++i) {
       url += $"&values[{i}]={values[i]}";
@@ -26,7 +27,7 @@ public class CoreUser{
     }
 
     var textResponse = response.downloadHandler.text;
-  
+
     response.Dispose();
 
     StaticHandlers.ThrowMoodleException(textResponse);
@@ -36,7 +37,7 @@ public class CoreUser{
 
   public async Task<GetUsersResponse> GetUsers(GetUsersCriteria[] criteria){
     const string function = "core_user_get_users";
-    var url = $"{config.siteServerURL}?wstoken={config.token}&wsfunction={function}&{Constants.responseType}";
+    var url = $"{_urlStart}&wsfunction={function}";
 
     for(var i = 0; i < criteria.Length; ++i){
       var c = criteria[i];

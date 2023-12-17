@@ -8,14 +8,9 @@ public class MoodleConfig : MonoBehaviour {
 
   private string _token;
   private string _siteServerURL;
-  public string token{
-    get => _token;
-  }
-  public string siteServerURL{
-    get => _siteServerURL;
-  }
 
   [HideInInspector] public CoreUser coreUser;
+  [HideInInspector] public CoreAuth coreAuth;
 
   void Awake() {
     if (instance == null) {
@@ -37,7 +32,8 @@ public class MoodleConfig : MonoBehaviour {
   }
 
   void SetUpFunctions(){
-    coreUser = new CoreUser(this);
+    coreUser = new CoreUser(_siteServerURL, _token);
+    coreAuth = new CoreAuth(_siteServerURL, _token);
   }
 }
 
