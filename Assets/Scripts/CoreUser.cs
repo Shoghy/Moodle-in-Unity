@@ -27,7 +27,7 @@ public class CoreUser{
     }
 
     var textResponse = response.downloadHandler.text;
-  
+
     response.Dispose();
 
     StaticHandlers.ThrowMoodleException(textResponse);
