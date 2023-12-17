@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MoodleConfig : MonoBehaviour {
@@ -30,25 +31,18 @@ public class MoodleConfig : MonoBehaviour {
   }
 
   void SetUpValues(){
-    var configInfo = configFile.text.Split("\n");
-
-    foreach (var configField in configInfo) {
-      var field_value = configField.Split("=");
-
-      switch (field_value[0]) {
-        case "token": {
-          _token = field_value[1].Trim();
-          break;
-        }
-        case "siteServerURL": {
-          _siteServerURL = field_value[1].Trim();
-          break;
-        }
-      }
-    }
+    var configInfo = JsonUtility.FromJson<ConfigFile>(configFile.text);
+    _token = configInfo.token;
+    _siteServerURL = configInfo.siteServerURL;
   }
 
   void SetUpFunctions(){
     coreUser = new CoreUser(this);
   }
+}
+
+[Serializable]
+public class ConfigFile{
+  public string token;
+  public string siteServerURL;
 }

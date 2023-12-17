@@ -75,7 +75,7 @@ crashlytics-build.properties
 /.vscode/
 
 # Super secret files
-config.txt
-config.txt.meta
+config.json
+config.json.meta
 Tester.cs
 Tester.cs.meta
