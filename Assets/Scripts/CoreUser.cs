@@ -12,7 +12,7 @@ public class CoreUser{
 
   public async Task<UserInfo[]> GetUsersByField(EGetUsersByField field, string[] values) {
     const string function = "core_user_get_users_by_field";
-    var url = $"{_urlStart}&wsfunction={function}&field={field.name()}";
+    var url = $"{_urlStart}&wsfunction={function}&field={field}";
 
     for (var i = 0; i < values.Length; ++i) {
       url += $"&values[{i}]={values[i]}";
@@ -41,7 +41,7 @@ public class CoreUser{
 
     for(var i = 0; i < criteria.Length; ++i){
       var c = criteria[i];
-      url += $"&criteria[{i}][key]={c.key.name()}";
+      url += $"&criteria[{i}][key]={c.key}";
       url += $"&criteria[{i}][value]={c.value}";
     }
     
