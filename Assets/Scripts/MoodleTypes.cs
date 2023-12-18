@@ -51,3 +51,25 @@ public class MoodleWarning{
   public string warningcode;
   public string message;
 }
+
+public class MoodleGrade{
+  public int studentid;
+  public float grade;
+  public string str_feedback;
+  public MoodleGrade(
+    int studentid,
+    float grade,
+    string str_feedback = null
+  ){
+    this.studentid = studentid;
+    this.grade = grade;
+    this.str_feedback = str_feedback;
+  }
+}
+
+public enum MoodleGradeType{
+  none = 0,
+  value = 1,
+  scale = 2,
+  text = 3
+}
