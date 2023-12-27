@@ -32,7 +32,7 @@ public class MoodleException : Exception {
   public string message;
   public string debuginfo;
 
-  public MoodleException(MoodleException moodleException): base(moodleException.ToString()){
+  public MoodleException(MoodleException moodleException): base(moodleException.message){
     exception = moodleException.exception;
     errorcode = moodleException.errorcode;
     message = moodleException.message;
@@ -72,4 +72,9 @@ public enum MoodleGradeType{
   value = 1,
   scale = 2,
   text = 3
+}
+
+public enum MoodleBinaryResponse{
+  ok = 0,
+  failed = 1
 }

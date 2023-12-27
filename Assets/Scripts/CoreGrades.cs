@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ public class CoreGrades{
     _urlStart = $"{siteServerURL}?wstoken={token}&{Constants.responseType}";
   }
   
-  public async Task UpdateGrades(
+  public async Task<MoodleBinaryResponse> UpdateGrades(
     string source,
     int courseid,
     string component,
@@ -45,6 +46,13 @@ public class CoreGrades{
       }
     }
 
+    var response = await StaticHandlers.SendRequestHandler(url);
+
+    try{
+      return (MoodleBinaryResponse)int.Parse(response);
+    }catch(Exception){
+      throw new Exception("Outdated API, the value returned by Moodle is unknown. Please contact the developer.");
+    }
   }
 }
 

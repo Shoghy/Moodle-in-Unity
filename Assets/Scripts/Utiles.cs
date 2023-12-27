@@ -40,6 +40,24 @@ public static class StaticHandlers{
       await Task.Yield();
     }
   }
+
+  public static async Task<string> SendRequestHandler(string url){
+    var response = UnityWebRequest.Get(url);
+    await AwaitUnityRequest(response);
+
+    if (response.result != UnityWebRequest.Result.Success) {
+      response.Dispose();
+      throw new Exception("An unknown error has occurred");
+    }
+
+    var textResponse = response.downloadHandler.text;
+
+    response.Dispose();
+
+    ThrowMoodleException(textResponse);
+
+    return textResponse;
+  }
 }
 
 [Serializable]
