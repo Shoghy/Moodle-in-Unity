@@ -32,7 +32,7 @@ public class MoodleException : Exception {
   public string message;
   public string debuginfo;
 
-  public MoodleException(MoodleException moodleException): base(moodleException.ToString()){
+  public MoodleException(MoodleException moodleException): base(moodleException.message){
     exception = moodleException.exception;
     errorcode = moodleException.errorcode;
     message = moodleException.message;
@@ -50,4 +50,31 @@ public class MoodleWarning{
   public int itemid;
   public string warningcode;
   public string message;
+}
+
+public class MoodleGrade{
+  public int studentid;
+  public float grade;
+  public string str_feedback;
+  public MoodleGrade(
+    int studentid,
+    float grade,
+    string str_feedback = null
+  ){
+    this.studentid = studentid;
+    this.grade = grade;
+    this.str_feedback = str_feedback;
+  }
+}
+
+public enum MoodleGradeType{
+  none = 0,
+  value = 1,
+  scale = 2,
+  text = 3
+}
+
+public enum MoodleBinaryResponse{
+  ok = 0,
+  failed = 1
 }
