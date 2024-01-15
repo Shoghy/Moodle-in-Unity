@@ -18,21 +18,9 @@ public class CoreUser{
       url += $"&values[{i}]={values[i]}";
     }
 
-    var response = UnityWebRequest.Get(url);
-    await StaticHandlers.AwaitUnityRequest(response);
+    var response = await StaticHandlers.SendRequestHandler(url);
 
-    if (response.result != UnityWebRequest.Result.Success) {
-      response.Dispose();
-      throw new Exception("An unknown error has occurred");
-    }
-
-    var textResponse = response.downloadHandler.text;
-
-    response.Dispose();
-
-    StaticHandlers.ThrowMoodleException(textResponse);
-
-    return ArrayJsonWrapper<UserInfo>.FromJSON(textResponse);
+    return ArrayJsonWrapper<UserInfo>.FromJSON(response);
   }
 
   public async Task<GetUsersResponse> GetUsers(GetUsersCriteria[] criteria){

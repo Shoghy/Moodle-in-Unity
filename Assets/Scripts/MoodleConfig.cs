@@ -11,6 +11,7 @@ public class MoodleConfig : MonoBehaviour {
 
   [HideInInspector] public CoreUser coreUser;
   [HideInInspector] public CoreAuth coreAuth;
+  [HideInInspector] public CoreGrades coreGrades;
 
   void Awake() {
     if (instance == null) {
@@ -34,6 +35,7 @@ public class MoodleConfig : MonoBehaviour {
   void SetUpFunctions(){
     coreUser = new CoreUser(_siteServerURL, _token);
     coreAuth = new CoreAuth(_siteServerURL, _token);
+    coreGrades = new CoreGrades(_siteServerURL, _token);
   }
 }
 
